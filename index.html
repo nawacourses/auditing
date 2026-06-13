@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>برنامج تدقيق الترميز الطبي | نوى للتدريب الصحي</title>
+<meta name="description" content="أول برنامج متخصص في تدقيق الترميز الطبي (Clinical Coding Auditing) داخل المملكة — بالشراكة مع eHealth Education ومعتمد من مجلس الضمان الصحي. تقسيط ميسر عبر تابي وتمارا.">
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src= 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f); })(window,document,'script','dataLayer','GTM-TLKJMSDW');</script>
+<!-- End Google Tag Manager -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+/* ══ RESET ══ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Cairo',Arial,sans-serif;color:#1A1640;overflow-x:hidden;direction:rtl;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+ul{list-style:none}
+img{display:block;max-width:100%}
+
+/* ══ NAV ══ */
+.nav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;align-items:center;justify-content:space-between;padding:11px 5%;background:rgba(10,6,40,.95);border-bottom:1px solid rgba(255,255,255,.07)}
+.nav-logo{height:30px;filter:brightness(10)}
+.nav-right{display:flex;align-items:center;gap:8px}
+.nav-badge{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:50px;padding:5px 12px;font-size:11px;font-weight:700;color:rgba(255,255,255,.9);white-space:nowrap}
+.nav-cta{background:#F0A500;color:#1A1640;border-radius:50px;padding:9px 22px;font-size:13px;font-weight:800;white-space:nowrap;transition:opacity .2s}
+.nav-cta:hover{opacity:.88}
+@media(max-width:700px){.nav-badge{display:none}}
+
+/* ══ HERO ══ */
+.hero{min-height:100vh;padding:100px 5% 60px;position:relative;overflow:hidden;background:linear-gradient(145deg,#080420 0%,#1e1b5e 40%,#4a2d85 75%,#6637a8 100%)}
+.hero-dots{position:absolute;inset:0;z-index:0;pointer-events:none;background-image:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1px);background-size:30px 30px}
+.hero-glow{position:absolute;top:-10%;right:5%;z-index:0;pointer-events:none;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(180,120,255,.2),transparent 70%)}
+.hero-inner{position:relative;z-index:2;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 380px;gap:40px;align-items:start;min-height:calc(100vh - 160px)}
+.hero-copy{color:#fff}
+.badges-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);border-radius:50px;padding:5px 13px;font-size:11px;font-weight:700}
+.dot{width:7px;height:7px;border-radius:50%;background:#00E5B4;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.7);opacity:.4}}
+.acc-row{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin-bottom:20px}
+.acc-pill{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:6px;padding:5px 10px;font-size:11px;font-weight:700;color:rgba(255,255,255,.9);white-space:nowrap}
+.acc-logo-box{background:rgba(255,255,255,.95);border-radius:6px;padding:4px 10px;display:flex;align-items:center}
+.acc-logo-box img{height:18px}
+.hero h1{font-size:clamp(24px,2.8vw,46px);font-weight:900;line-height:1.18;margin-bottom:16px;color:#fff}
+.c-purple{color:#C8A8FF}
+.c-gold{color:#F0A500}
+.hero-sub{font-size:14px;color:rgba(255,255,255,.84);line-height:1.9;margin-bottom:26px;max-width:470px}
+.hero-btn{display:inline-flex;align-items:center;gap:8px;background:#F0A500;color:#1A1640;border-radius:50px;padding:14px 34px;font-size:16px;font-weight:800;box-shadow:0 8px 28px rgba(240,165,0,.44);transition:all .25s}
+.hero-btn:hover{filter:brightness(1.08);transform:translateY(-2px)}
+.promo-img-wrap{margin-top:28px;width:100%;max-width:480px;border-radius:16px;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,.4)}
+.promo-img-wrap img{width:100%;height:auto;display:block}
+
+/* عمود الفورم */
+.form-card{background:#fff;border-radius:20px;box-shadow:0 24px 70px rgba(0,0,0,.35);overflow:hidden;position:sticky;top:90px}
+.fc-head{background:linear-gradient(135deg,#1E1B5E,#6637A8);padding:18px 24px;text-align:center;color:#fff}
+.fc-head h3{font-size:16px;font-weight:900;margin-bottom:8px}
+.fc-disc{display:inline-block;background:#F0A500;color:#1A1640;border-radius:50px;padding:8px 20px;font-size:14px;font-weight:900}
+.fc-body{padding:18px 20px}
+.field{margin-bottom:13px}
+.field label{display:block;font-size:12px;font-weight:700;color:#4A4070;margin-bottom:5px}
+.field input,.field textarea{width:100%;border:1.5px solid rgba(107,63,160,.2);border-radius:10px;padding:10px 13px;font-size:13px;font-family:'Cairo',Arial,sans-serif;color:#1A1640;background:#fff;outline:none;transition:border-color .2s;direction:rtl;-webkit-appearance:none}
+.field textarea{resize:vertical;min-height:76px}
+.field input:focus,.field textarea:focus{border-color:#6637A8;box-shadow:0 0 0 3px rgba(102,55,168,.12)}
+.field input::placeholder,.field textarea::placeholder{color:#8878AA}
+.form-submit-btn{width:100%;background:linear-gradient(135deg,#1E1B5E,#6637A8);color:#fff;border:none;border-radius:50px;padding:13px 20px;font-size:15px;font-weight:800;font-family:'Cairo',Arial,sans-serif;cursor:pointer;box-shadow:0 6px 22px rgba(30,27,94,.36);transition:all .25s}
+.form-submit-btn:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(30,27,94,.46)}
+.form-submit-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.form-note{text-align:center;font-size:10px;color:#8878AA;margin-top:9px;line-height:1.5}
+.form-success{display:none;text-align:center;padding:22px 0}
+.success-icon{font-size:50px;margin-bottom:9px}
+.form-success h3{font-size:17px;font-weight:900;color:#6637A8;margin-bottom:6px}
+.form-success p{font-size:12px;color:#4A4070;line-height:1.7}
+
+@media(max-width:900px){
+  .hero-inner{grid-template-columns:1fr;gap:24px;min-height:auto}
+  .hero-copy{order:1}
+  .form-card{order:2;position:static}
+  .promo-img-wrap{max-width:100%;margin-top:20px}
+  .hero h1{font-size:clamp(22px,6vw,34px)}
+}
+
+/* ══ STRIP ══ */
+.strip{background:#fff;border-bottom:1px solid rgba(107,63,160,.12);padding:12px 5%}
+.strip-in{max-width:1240px;margin:0 auto;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px}
+.strip-lbl{font-size:10px;font-weight:800;letter-spacing:1.5px;color:#8878AA;text-transform:uppercase;white-space:nowrap}
+.strip-sep{width:1px;height:18px;background:rgba(107,63,160,.15)}
+.strip-list{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.si{display:flex;align-items:center;gap:5px;background:#F0EBF9;border:1px solid rgba(107,63,160,.15);border-radius:7px;padding:5px 11px;font-size:11px;font-weight:700;color:#4A4070;white-space:nowrap}
+
+/* ══ SECTIONS ══ */
+.sec{padding:68px 5%}
+.sec-in{max-width:1240px;margin:0 auto}
+.sec-head{text-align:center;margin-bottom:42px}
+.sec-tag{display:inline-block;background:#F0EBF9;color:#6637A8;border:1px solid rgba(102,55,168,.18);border-radius:50px;padding:4px 15px;font-size:12px;font-weight:800;margin-bottom:10px}
+.sec-title{font-size:clamp(22px,3vw,36px);font-weight:900;line-height:1.25;color:#1A1640;margin-bottom:10px}
+.sec-title em{color:#6637A8;font-style:normal}
+.sec-sub{font-size:14px;color:#4A4070;line-height:1.85;max-width:620px;margin:0 auto}
+
+/* ══ WHY NOW (dark) ══ */
+.dark-sec{background:linear-gradient(145deg,#080420 0%,#1e1b5e 40%,#4a2d85 100%);position:relative;overflow:hidden}
+.dark-sec::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1px);background-size:28px 28px;pointer-events:none}
+.dark-sec .sec-head{position:relative;z-index:1}
+.dark-sec .sec-tag{background:rgba(255,255,255,.1);color:rgba(255,255,255,.9);border-color:rgba(255,255,255,.2)}
+.dark-sec .sec-title{color:#fff}.dark-sec .sec-title em{color:#C8A8FF}.dark-sec .sec-sub{color:rgba(255,255,255,.78)}
+.whynow-card{position:relative;z-index:1;max-width:820px;margin:0 auto;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:30px 28px;color:#fff;text-align:center}
+.whynow-card p{font-size:15px;line-height:1.95;color:rgba(255,255,255,.86)}
+.whynow-card strong{color:#FFD580}
+
+/* ══ FEATS (شراكة عالمية) ══ */
+.feats{display:flex;flex-wrap:wrap;gap:14px;position:relative;z-index:1}
+.feat{flex:1 1 calc(50% - 7px);min-width:240px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.13);border-radius:14px;padding:24px 20px;color:#fff;transition:all .3s}
+.feat:hover{background:rgba(255,255,255,.13);transform:translateY(-4px)}
+.feat-ic{font-size:30px;margin-bottom:10px}
+.feat h3{font-size:16px;font-weight:800;color:#C8A8FF;margin-bottom:7px}
+.feat p{font-size:13px;line-height:1.85;color:rgba(255,255,255,.78)}
+
+/* ══ STATS (تفاصيل البرنامج) ══ */
+.stats-sec{background:#fff}
+.stats-row{display:flex;flex-wrap:wrap;gap:18px;justify-content:center}
+.stat-c{flex:1 1 240px;max-width:320px;background:linear-gradient(150deg,#F8F7FC,#F0EBF9);border:1px solid rgba(107,63,160,.16);border-radius:18px;padding:28px 24px;text-align:center;transition:all .3s}
+.stat-c:hover{border-color:#6637A8;transform:translateY(-4px);box-shadow:0 14px 40px rgba(30,27,94,.12)}
+.stat-c .num{font-size:42px;font-weight:900;background:linear-gradient(135deg,#1E1B5E,#9d5ce0);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1;margin-bottom:8px}
+.stat-c .lbl{font-size:15px;font-weight:800;color:#1A1640;margin-bottom:6px}
+.stat-c .ds{font-size:13px;color:#4A4070;line-height:1.7}
+
+/* ══ MODULES (البنية العلمية) ══ */
+.mods-sec{background:#F8F7FC}
+.mods{display:flex;flex-direction:column;gap:14px;max-width:880px;margin:0 auto}
+.mod{display:flex;gap:18px;align-items:flex-start;background:#fff;border:1px solid rgba(107,63,160,.14);border-radius:16px;padding:22px 22px;transition:all .3s}
+.mod:hover{border-color:#6637A8;transform:translateX(-4px);box-shadow:0 10px 30px rgba(30,27,94,.1)}
+.mod-num{flex-shrink:0;width:46px;height:46px;border-radius:13px;background:linear-gradient(135deg,#1E1B5E,#6637A8);color:#fff;font-size:19px;font-weight:900;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(30,27,94,.3)}
+.mod-body h3{font-size:16px;font-weight:800;color:#1A1640;margin-bottom:6px}
+.mod-body p{font-size:13.5px;color:#4A4070;line-height:1.8}
+
+/* ══ INSTALL ══ */
+.install-sec{background:linear-gradient(135deg,#1E1B5E,#6637A8);padding:52px 5%;text-align:center;color:#fff}
+.install-in{max-width:760px;margin:0 auto}
+.install-sec h2{font-size:clamp(20px,3vw,32px);font-weight:900;margin-bottom:9px}
+.install-sec h2 em{color:#FFD580;font-style:normal}
+.install-sec p{font-size:14px;opacity:.86;margin-bottom:26px;line-height:1.85}
+.install-provs{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+.iprov{background:rgba(255,255,255,.11);border:1.5px solid rgba(255,255,255,.22);border-radius:14px;padding:14px 30px;min-width:150px}
+.iprov .pn{font-size:20px;font-weight:900}
+.iprov .ps{font-size:11px;opacity:.75;margin-top:3px}
+
+/* ══ FAQ ══ */
+.faq-sec{background:#fff}
+.faq-list{max-width:740px;margin:0 auto}
+.faq-item{border-bottom:1px solid rgba(107,63,160,.12)}
+.faq-q{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:18px 4px;cursor:pointer;font-size:14.5px;font-weight:800;color:#1A1640;user-select:none;transition:color .2s}
+.faq-q:hover{color:#6637A8}
+.ftog{width:26px;height:26px;border-radius:50%;flex-shrink:0;background:#F0EBF9;color:#6637A8;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:900;transition:all .25s}
+.faq-item.open .ftog{background:#6637A8;color:#fff;transform:rotate(45deg)}
+.faq-ans{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .25s;font-size:13.5px;color:#4A4070;line-height:1.9;padding:0 4px}
+.faq-item.open .faq-ans{max-height:280px;padding-bottom:18px}
+
+/* ══ FINAL CTA ══ */
+.final-sec{background:linear-gradient(145deg,#080420 0%,#1e1b5e 50%,#4a2d85 100%);text-align:center;padding:80px 5%;position:relative;overflow:hidden}
+.final-sec::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 50%,rgba(102,55,168,.38),transparent)}
+.final-in{position:relative;z-index:1;color:#fff}
+.sbadge{display:inline-flex;align-items:center;gap:7px;background:rgba(240,165,0,.14);border:1px solid rgba(240,165,0,.38);color:#FFD580;border-radius:50px;padding:7px 18px;font-size:12px;font-weight:700;margin-bottom:18px}
+.final-sec h2{font-size:clamp(22px,4vw,40px);font-weight:900;line-height:1.25;margin-bottom:12px}
+.final-sec h2 em{color:#C8A8FF;font-style:normal}
+.final-sec p{font-size:14px;color:rgba(255,255,255,.82);margin-bottom:28px;max-width:560px;margin-left:auto;margin-right:auto;line-height:1.85}
+.gold-btn{display:inline-flex;align-items:center;gap:8px;background:#F0A500;color:#1A1640;border-radius:50px;padding:14px 38px;font-size:15px;font-weight:800;box-shadow:0 8px 26px rgba(240,165,0,.44);transition:all .25s}
+.gold-btn:hover{filter:brightness(1.08);transform:translateY(-2px)}
+
+footer{background:#080420;color:rgba(255,255,255,.4);padding:22px 5%;text-align:center;font-size:12px}
+footer strong{color:rgba(255,255,255,.75)}
+
+.rv{opacity:0;transform:translateY(20px);transition:opacity .65s ease,transform .65s ease}
+.rv.vis{opacity:1;transform:translateY(0)}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}
+</style>
+</head>
+<body>
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TLKJMSDW" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="#top">
+    <img class="nav-logo" src="https://nawa-edu.com/wp-content/uploads/2023/02/nawa-english.png" alt="NAWA">
+  </a>
+  <div class="nav-right">
+    <div class="nav-badge">🌏 eHealth Education</div>
+    <div class="nav-badge">🛡️ مجلس الضمان الصحي</div>
+    <a href="#form" class="nav-cta">احجز مكانك ←</a>
+  </div>
+</nav>
+
+<!-- 01 | STICKY BAR -->
+<div style="position:fixed;bottom:0;left:0;right:0;z-index:9998;background:linear-gradient(90deg,#1E1B5E,#6637A8);color:#fff;text-align:center;padding:10px 5%;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;">
+  <span>انضم إلى البرنامج الأول من نوعه في المملكة لتدقيق الرموز الطبية — تقسيط ميسر عبر تابي وتمارا</span>
+  <a href="#form" style="background:#F0A500;color:#1A1640;border-radius:50px;padding:7px 20px;font-size:12px;font-weight:800;white-space:nowrap;">احجز مكانك الآن</a>
+</div>
+
+<!-- 02 | HERO -->
+<section class="hero" id="top">
+  <div class="hero-dots"></div>
+  <div class="hero-glow"></div>
+
+  <div class="hero-inner">
+    <!-- عمود النص -->
+    <div class="hero-copy">
+      <div class="badges-row">
+        <div class="badge"><div class="dot"></div> البرنامج الأول من نوعه في المملكة</div>
+        <div class="badge">💳 تقسيط بدون فوائد</div>
+        <div class="badge">🤝 بالشراكة مع eHealth Education</div>
+      </div>
+      <div class="acc-row">
+        <div class="acc-logo-box">
+          <img src="https://nawa-edu.com/wp-content/uploads/2023/02/nawa-english.png" alt="NAWA" style="height:18px">
+        </div>
+        <div class="acc-pill">🌏 eHealth Education</div>
+        <div class="acc-pill">🛡️ مجلس الضمان الصحي</div>
+        <div class="acc-pill">💻 منصة EHROL</div>
+      </div>
+      <h1>
+        أول برنامج متخصص في<br>
+        <span class="c-purple">تدقيق الترميز الطبي</span><br>
+        <span class="c-gold">داخل المملكة العربية السعودية</span>
+      </h1>
+      <p class="hero-sub">
+        بوابتك الاستباقية لامتلاك التخصص الأعلى طلباً في قطاع الصحة. صُمم البرنامج بالتعاون مع <strong style="color:#C8A8FF">eHealth Education</strong> ليمنحك الكفاءة والخبرة المطلوبة لمواكبة تغيّرات القطاع الصحي.
+      </p>
+
+      <div class="promo-img-wrap">
+        <img src="auditing-hero.jpg" alt="برنامج تدقيق الترميز الطبي — Clinical Coding Auditing Program">
+      </div>
+
+      <a href="#form" class="hero-btn" style="margin-top:24px">🚀 انضم الآن واستفد من التقسيط</a>
+    </div>
+
+    <!-- الفورم -->
+    <div class="form-card" id="form">
+      <div class="fc-head">
+        <h3>سجّل في البرنامج الأول من نوعه</h3>
+        <div class="fc-disc">💳 تقسيط على 4 دفعات بدون فوائد</div>
+      </div>
+      <div class="fc-body">
+        <div id="formWrap">
+          <div class="field">
+            <label for="fn">الاسم الكامل *</label>
+            <input type="text" id="fn" placeholder="أدخل اسمك الكامل">
+          </div>
+          <div class="field">
+            <label for="fp">رقم الجوال *</label>
+            <input type="tel" id="fp" placeholder="05xxxxxxxx">
+          </div>
+          <div class="field">
+            <label for="fe">البريد الإلكتروني *</label>
+            <input type="email" id="fe" placeholder="example@email.com">
+          </div>
+          <div class="field">
+            <label for="fj">الوظيفة *</label>
+            <input type="text" id="fj" placeholder="مثال: مرمز طبي، مدقق، إداري صحي...">
+          </div>
+          <div class="field">
+            <label for="fm">رسالتك</label>
+            <textarea id="fm" placeholder="اكتب رسالتك أو استفسارك هنا..."></textarea>
+          </div>
+          <button class="form-submit-btn" id="submitBtn" onclick="doSubmit()">
+            🚀 احجز مقعدي الآن
+          </button>
+          <p class="form-note">🔒 بياناتك آمنة وسرية تماماً</p>
+        </div>
+        <div class="form-success" id="formSuccess">
+          <div class="success-icon">🎉</div>
+          <h3>تم استلام طلبك!</h3>
+          <p>سيتواصل معك أحد مستشارينا خلال 24 ساعة لإتمام تسجيلك في البرنامج.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- STRIP -->
+<div class="strip">
+  <div class="strip-in">
+    <span class="strip-lbl">معتمد من</span>
+    <div class="strip-sep"></div>
+    <div class="strip-list">
+      <div class="si">🌏 eHealth Education</div>
+      <div class="si">🛡️ مجلس الضمان الصحي</div>
+      <div class="si">💻 منصة EHROL</div>
+      <div class="si">💳 تابي وتمارا</div>
+    </div>
+  </div>
+</div>
+
+<!-- 03 | لماذا الآن؟ -->
+<section class="sec dark-sec">
+  <div class="sec-in">
+    <div class="sec-head rv">
+      <div class="sec-tag">لماذا الآن؟</div>
+      <h2 class="sec-title">السوق يتحرك بسرعة <em>والصدارة لمن يسبق</em></h2>
+    </div>
+    <div class="whynow-card rv">
+      <p>
+        تشهد المنشآت الصحية في المملكة تحوّلاً متسارعاً وطلباً مرتفعاً غير مسبوق على <strong>المدققين المحترفين (Auditors)</strong>، تماشياً مع التحوّل نحو الرعاية الصحية القائمة على القيمة.
+        إذا كنت تبحث عن الانتقال إلى التخصص الأعلى نمواً وتأثيراً، فإن الانتظار يعني تفويت فرصة <strong>الصدارة في السوق</strong>.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- 04 | شراكة عالمية وخبرة محلية -->
+<section class="sec dark-sec">
+  <div class="sec-in">
+    <div class="sec-head rv">
+      <div class="sec-tag">شراكة عالمية وخبرة محلية</div>
+      <h2 class="sec-title">مزيج معرفي <em>دولي ومحلي لا يُنافس</em></h2>
+      <p class="sec-sub">ننطلق بالتعاون مع الجهة العالمية الرائدة eHealth Education ليحصل المتدرب على أفضل ما في العالمين</p>
+    </div>
+    <div class="feats">
+      <div class="feat rv d1">
+        <div class="feat-ic">🏆</div>
+        <h3>شهادة دولية معتمدة رسمياً</h3>
+        <p>تمنح سيرتك الذاتية ثقلاً حقيقياً وموثوقية كاملة أمام جهات التوظيف والمنشآت الكبرى.</p>
+      </div>
+      <div class="feat rv d2">
+        <div class="feat-ic">👨‍🏫</div>
+        <h3>نخبة من الخبراء والمحاضرين</h3>
+        <p>مدربون ومحاضرون أستراليون، إلى جانب محاضر عربي ذو خبرة عريقة جداً في القطاع الصحي السعودي لضمان تطبيق المعرفة محلياً ومواءمتها مع الأنظمة الوطنية.</p>
+      </div>
+      <div class="feat rv d1">
+        <div class="feat-ic">💻</div>
+        <h3>محاكاة عملية بنسبة 100%</h3>
+        <p>بيئة رقمية تفاعلية متكاملة عبر منصة EHROL العالمية، تتيح لك ممارسة حقيقية قائمة على محاكاة سجلات وحالات مرضى واقعية.</p>
+      </div>
+      <div class="feat rv d2">
+        <div class="feat-ic">🛡️</div>
+        <h3>معتمد من مجلس الضمان الصحي</h3>
+        <p>اعتماد رسمي يضمن توافق المحتوى مع متطلبات الجهات التنظيمية ومعايير الترميز المتبعة في المملكة.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 | تفاصيل البرنامج -->
+<section class="sec stats-sec">
+  <div class="sec-in">
+    <div class="sec-head rv">
+      <div class="sec-tag">تفاصيل البرنامج</div>
+      <h2 class="sec-title">ساعات مصممة بدقة <em>لجاهزية فورية</em></h2>
+      <p class="sec-sub">تخرج من البرنامج بمستوى الخبرة المطلوبة والجاهزية الفورية لقيادة الميدان على مستوى المملكة</p>
+    </div>
+    <div class="stats-row">
+      <div class="stat-c rv d1">
+        <div class="num">90</div>
+        <div class="lbl">ساعة تدريبية</div>
+        <div class="ds">موزعة بعناية بين المدربين الأستراليين والمحليين للشرح والتحليل المعمّق.</div>
+      </div>
+      <div class="stat-c rv d2">
+        <div class="num">170</div>
+        <div class="lbl">ساعة تطبيقية</div>
+        <div class="ds">مخصصة للتطبيق العملي المكثّف وفحص السجلات لتحويل المعرفة النظرية إلى تميّز مهني.</div>
+      </div>
+      <div class="stat-c rv d3">
+        <div class="num">🎓</div>
+        <div class="lbl">شهادة معتمدة</div>
+        <div class="ds">معتمدة رسمياً من eHealth Education ومعترف بها من مجلس الضمان الصحي.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 | البنية العلمية للبرنامج -->
+<section class="sec mods-sec">
+  <div class="sec-in">
+    <div class="sec-head rv">
+      <div class="sec-tag">البنية العلمية</div>
+      <h2 class="sec-title">محاور <em>البرنامج التدريبي</em></h2>
+      <p class="sec-sub">رحلة متكاملة من التأسيس التشريعي حتى التقارير التنفيذية والتوثيق السريري</p>
+    </div>
+    <div class="mods">
+      <div class="mod rv">
+        <div class="mod-num">1</div>
+        <div class="mod-body">
+          <h3>التأسيس والتشريعات الإستراتيجية</h3>
+          <p>دراسة أسس الترميز، التشريعات، والقوانين الموجهة للتمويل ونماذج التمويل المعتمدة بالمملكة.</p>
+        </div>
+      </div>
+      <div class="mod rv">
+        <div class="mod-num">2</div>
+        <div class="mod-body">
+          <h3>القيادة والأخلاقيات المهنية</h3>
+          <p>توجيه فرق المرمزين بكفاءة، إجراء البحوث المتخصصة، وإدارة الاستفسارات السريرية بمهارة وأخلاقية عالية.</p>
+        </div>
+      </div>
+      <div class="mod rv">
+        <div class="mod-num">3</div>
+        <div class="mod-body">
+          <h3>منهجيات الجودة والإحصاء</h3>
+          <p>تصميم المنهجيات والخطط التدقيقية، تطبيق أساليب أخذ العينات الإحصائية بدقة، ووضع خطط تجويد جودة الترميز الشاملة للمنشأة.</p>
+        </div>
+      </div>
+      <div class="mod rv">
+        <div class="mod-num">4</div>
+        <div class="mod-body">
+          <h3>التدقيق التخصصي المعمّق</h3>
+          <p>تدقيق وفحص السجلات الطبية الأكثر تعقيداً عبر كافة الأنظمة الطبية، وتشمل: الأورام، الأمراض المعدية، جراحة الأعضاء، التوليد، الأطفال، والإصابات الحادة.</p>
+        </div>
+      </div>
+      <div class="mod rv">
+        <div class="mod-num">5</div>
+        <div class="mod-body">
+          <h3>التقارير التنفيذية والتوثيق السريري</h3>
+          <p>تجميع نتائج الفحص وصياغة تقارير تدقيق فعّالة وموجهة للإدارات التنفيذية والقيادية لتعزيز وتحسين التوثيق السريري (CDI).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 | ادفع بالتقسيط -->
+<section class="install-sec" id="install">
+  <div class="install-in">
+    <h2>ادفع <em>بالتقسيط</em></h2>
+    <p>لأن هذا الاستثمار المهني هو بوابتك للمستقبل، حرصنا على تذليل كافة العقبات المادية. احجز مقعدك الآن وقسّط الرسوم الدراسية على 4 دفعات شهرية ميسّرة وبدون أي فوائد عبر حلول الدفع الذكية تابي وتمارا.</p>
+    <div class="install-provs">
+      <div class="iprov">
+        <div class="pn">تابي</div>
+        <div class="ps">4 دفعات بدون فوائد</div>
+      </div>
+      <div class="iprov">
+        <div class="pn">تمارا</div>
+        <div class="ps">4 دفعات بدون فوائد</div>
+      </div>
+    </div>
+    <a href="#form" class="gold-btn">ابدأ الاستثمار في مستقبلك الآن</a>
+  </div>
+</section>
+
+<!-- 08 | FAQ -->
+<section class="sec faq-sec">
+  <div class="sec-in">
+    <div class="sec-head rv">
+      <div class="sec-tag">الأسئلة الشائعة</div>
+      <h2 class="sec-title">أسئلة <em>يسألها الجميع</em></h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item rv">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          لمن يوجّه هذا البرنامج وما هي متطلباته؟
+          <span class="ftog">+</span>
+        </div>
+        <div class="faq-ans">يستهدف البرنامج المرمزين الطبيين الممارسين الذين أكملوا دراسة الترميز الطبي المتقدم ومارسوه لمدة 12 شهراً، ويرغبون في الانتقال إلى دور "المدقق المحترف".</div>
+      </div>
+      <div class="faq-item rv">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          ما هي القيمة الفورية لشهادة eHealth Education في السوق السعودي؟
+          <span class="ftog">+</span>
+        </div>
+        <div class="faq-ans">تُعد eHealth Education من الأسماء المرموقة دولياً ومحلياً؛ والشهادة تعكس إتقانك لأعلى معايير التدقيق الأسترالية والمحلية، وتمنحك أفضلية مطلقة في المستشفيات والجهات الحكومية والخاصة وشركات التأمين.</div>
+      </div>
+      <div class="faq-item rv">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          كيف تضمن منصة EHROL جاهزيتي للعمل الحقيقي؟
+          <span class="ftog">+</span>
+        </div>
+        <div class="faq-ans">توفّر المنصة محاكاة حقيقية 100% لسجلات مرضى واقعية، مما يجعلك تواجه نفس الحالات والتحديات والثغرات الترميزية التي ستتعامل معها يومياً في وظيفتك كمدقق.</div>
+      </div>
+      <div class="faq-item rv">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          هل تتوفر خيارات تقسيط للرسوم؟
+          <span class="ftog">+</span>
+        </div>
+        <div class="faq-ans">نعم، يمكنك تقسيط الرسوم الدراسية على 4 دفعات شهرية ميسّرة وبدون أي فوائد عبر تابي وتمارا.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 | FINAL CTA -->
+<section class="final-sec">
+  <div class="final-in">
+    <div class="sbadge">🔥 المقاعد محدودة لكل دفعة</div>
+    <h2>كُن في طليعة الكوادر التي تقود<br><em>جودة البيانات الصحية والامتثال</em></h2>
+    <p>احجز مكانك الآن في البرنامج الأول من نوعه في المملكة العربية السعودية، واستفد من خيارات التقسيط الميسّرة.</p>
+    <a href="#form" class="gold-btn">🚀 احجز مكانك الآن بالتقسيط</a>
+  </div>
+</section>
+
+<footer>
+  <strong>نوى للتدريب الصحي</strong> — جميع الحقوق محفوظة © 2026
+</footer>
+
+<script>
+/* ⚠️ مهم: استبدلي الرابط ده برابط Apps Script الخاص بشيت Auditing بعد النشر */
+var SCRIPT_URL = 'PASTE_YOUR_AUDITING_APPS_SCRIPT_URL_HERE';
+
+function getUTM(param){var u=new URLSearchParams(window.location.search);return u.get(param)||'';}
+
+function doSubmit() {
+  var name  = document.getElementById('fn').value.trim();
+  var phone = document.getElementById('fp').value.trim();
+  var job   = document.getElementById('fj').value.trim();
+  var msg   = document.getElementById('fm').value.trim();
+  var email = document.getElementById('fe').value.trim();
+  if (!name)  { alert('يرجى إدخال الاسم الكامل'); return; }
+  if (!phone) { alert('يرجى إدخال رقم الجوال');   return; }
+  if (!email) { alert('يرجى إدخال البريد الإلكتروني'); return; }
+  if (!job)   { alert('يرجى إدخال الوظيفة');       return; }
+  var btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ جاري الإرسال...';
+  fetch(SCRIPT_URL,{
+    method:'POST',mode:'no-cors',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      utm_source:   getUTM('utm_source')   || 'direct',
+      utm_medium:   getUTM('utm_medium')   || '',
+      utm_campaign: getUTM('utm_campaign') || 'auditing',
+      utm_content:  getUTM('utm_content')  || '',
+      name:name,email:email,phone:phone,job:job,message:msg,
+      program: 'Auditing'
+    })
+  }).catch(function(){});
+  if(typeof fbq!=='undefined'){fbq('track','Lead',{content_category:'Clinical Coding Auditing',currency:'SAR'});}
+  document.getElementById('formWrap').style.display='none';
+  document.getElementById('formSuccess').style.display='block';
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({event:'form_success',course:'Auditing'});
+}
+function toggleFaq(el){
+  var item=el.parentNode;
+  var open=item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(function(i){i.classList.remove('open')});
+  if(!open)item.classList.add('open');
+}
+var obs=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('vis');obs.unobserve(e.target);}});
+},{threshold:0.1});
+document.querySelectorAll('.rv').forEach(function(el){obs.observe(el);});
+document.querySelectorAll('a[href^="#"]').forEach(function(a){
+  a.addEventListener('click',function(e){
+    var t=document.querySelector(a.getAttribute('href'));
+    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});}
+  });
+});
+</script>
+</body>
+</html>
